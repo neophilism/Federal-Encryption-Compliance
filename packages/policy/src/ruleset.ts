@@ -2,8 +2,13 @@ import type {
   DeclarativeRuleSet,
 } from "@caiae/sdk";
 
-const systemScope = {
-  all: [
+type RuleExpression =
+  NonNullable<
+    DeclarativeRuleSet["rules"][number]["appliesWhen"]
+  >;
+
+const systemScopeExpressions:
+  RuleExpression[] = [
     {
       field: "resource.resourceType",
       operator: "equals",
@@ -15,11 +20,16 @@ const systemScope = {
       operator: "equals",
       value: true,
     },
-  ],
-} as const;
+  ];
 
-const contractorScope = {
-  all: [
+const systemScope:
+  RuleExpression = {
+    all:
+      systemScopeExpressions,
+  };
+
+const contractorScopeExpressions:
+  RuleExpression[] = [
     {
       field: "resource.resourceType",
       operator: "equals",
@@ -31,11 +41,16 @@ const contractorScope = {
       operator: "equals",
       value: true,
     },
-  ],
-} as const;
+  ];
 
-const externalServiceScope = {
-  all: [
+const contractorScope:
+  RuleExpression = {
+    all:
+      contractorScopeExpressions,
+  };
+
+const externalServiceScopeExpressions:
+  RuleExpression[] = [
     {
       field: "resource.resourceType",
       operator: "equals",
@@ -47,8 +62,13 @@ const externalServiceScope = {
       operator: "equals",
       value: true,
     },
-  ],
-} as const;
+  ];
+
+const externalServiceScope:
+  RuleExpression = {
+    all:
+      externalServiceScopeExpressions,
+  };
 
 export const federalDataEncryptionRuleSet:
   DeclarativeRuleSet = {
@@ -78,6 +98,72 @@ export const federalDataEncryptionRuleSet:
         require: {
           field:
             "resource.attributes.encryption.inTransit.enabled",
+          operator: "equals",
+          value: true,
+        },
+        requiredEvidenceTypes: [
+          "fdea.transit-encryption-configuration",
+        ],
+        metadata: {
+          authorityCitation:
+            "Federal Data Encryption Act of 2025 § 4(a)(1)",
+          authorityLocator:
+            "Sec. 4(a)(1)",
+        },
+      },
+      {
+        id:
+          "fdea.s4.public-web-hsts",
+        title:
+          "Public-facing web services enforce HTTPS-only access with HSTS",
+        severity: "high",
+        appliesWhen: {
+          all: [
+            ...systemScopeExpressions,
+            {
+              field:
+                "resource.attributes.publicFacingWebService",
+              operator: "equals",
+              value: true,
+            },
+          ],
+        },
+        require: {
+          field:
+            "resource.attributes.encryption.inTransit.hsts",
+          operator: "equals",
+          value: true,
+        },
+        requiredEvidenceTypes: [
+          "fdea.transit-encryption-configuration",
+        ],
+        metadata: {
+          authorityCitation:
+            "Federal Data Encryption Act of 2025 § 4(a)(1)",
+          authorityLocator:
+            "Sec. 4(a)(1)",
+        },
+      },
+      {
+        id:
+          "fdea.s4.email-transport-protection",
+        title:
+          "Agency email transport prevents downgrade and interception",
+        severity: "high",
+        appliesWhen: {
+          all: [
+            ...systemScopeExpressions,
+            {
+              field:
+                "resource.attributes.agencyEmailSystem",
+              operator: "equals",
+              value: true,
+            },
+          ],
+        },
+        require: {
+          field:
+            "resource.attributes.encryption.inTransit.emailTransportProtected",
           operator: "equals",
           value: true,
         },
@@ -123,7 +209,7 @@ export const federalDataEncryptionRuleSet:
         severity: "high",
         appliesWhen: {
           all: [
-            ...systemScope.all,
+            ...systemScopeExpressions,
             {
               field:
                 "resource.attributes.usesPortableStorage",
@@ -271,7 +357,7 @@ export const federalDataEncryptionRuleSet:
         severity: "high",
         appliesWhen: {
           all: [
-            ...contractorScope.all,
+            ...contractorScopeExpressions,
             {
               field:
                 "resource.attributes.usesSubcontractors",
