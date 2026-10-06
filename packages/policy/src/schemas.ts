@@ -125,6 +125,9 @@ export const informationSystemSchema = schema(
             hsts: {
               type: ["boolean", "null"],
             },
+            emailTransportProtected: {
+              type: ["boolean", "null"],
+            },
           },
         },
         atRest: {
