@@ -9,7 +9,7 @@ The source document is a draft titled **Federal Data Encryption Act of 2025** an
 For that reason:
 
 - the policy is created as **draft**;
-- the registered ruleset version is **2025-draft-1**;
+- the registered ruleset version is **2025-draft-2**;
 - no effective date is assumed;
 - provisioning does not activate the ruleset unless FDEA_EFFECTIVE_FROM is supplied explicitly.
 
@@ -60,7 +60,7 @@ Every evidence type required by the declarative ruleset has a corresponding sche
 
 ## Ruleset
 
-The initial ruleset contains 14 declarative controls covering:
+The current ruleset contains 17 declarative controls covering:
 
 - covered-information encryption in transit;
 - HSTS for applicable public-facing web services;
@@ -71,11 +71,14 @@ The initial ruleset contains 14 declarative controls covering:
 - NIST conformance;
 - key management;
 - contractor Section 4 compliance;
-- contractor compliance clauses;
-- subcontractor flow-down;
+- contractor compliance as a material agreement condition;
+- all-tier subcontractor flow-down;
+- existing-agreement modification or written compliance notice;
+- contractor periodic compliance evaluation;
 - external-service Section 4 compliance;
 - external-service compliance agreements;
-- external-service key isolation.
+- cloud data encryption;
+- cloud key isolation against unauthorized provider or third-party access.
 
 PR 3 will build evaluation workflows and representative fixtures around this ruleset. PR 4 expands the contractor/external-system operational workflows. PR 5 handles waiver and emergency-exception workflows through the engine's exception model rather than pretending those are ordinary passing controls.
 
