@@ -177,33 +177,74 @@ export const informationSystemSchema = schema(
 );
 
 export const coveredContractorSchema = schema(
-  "urn:fdea:resource:covered-contractor:v1",
+  "urn:fdea:resource:covered-contractor:v2",
   "Covered Contractor",
   [
     "sponsoringAgencyExternalRef",
     "handlesCoveredInformation",
+    "arrangementType",
+    "agreementLifecycle",
     "section4ControlsImplemented",
-    "agreementRequiresSection4Compliance",
+    "agreementMakesSection4ComplianceMaterialCondition",
+    "periodicComplianceEvaluationIncorporated",
   ],
   {
     sponsoringAgencyExternalRef: {
       type: "string",
       minLength: 1,
     },
+    parentContractorExternalRef: {
+      type: ["string", "null"],
+    },
     handlesCoveredInformation: {
       type: "boolean",
+    },
+    arrangementType: {
+      enum: [
+        "contract",
+        "grant",
+        "cooperative-agreement",
+        "other-arrangement",
+      ],
+    },
+    agreementReference: {
+      type: ["string", "null"],
+    },
+    agreementLifecycle: {
+      enum: [
+        "new-after-enactment",
+        "existing-at-enactment",
+      ],
     },
     section4ControlsImplemented: {
       type: "boolean",
     },
-    agreementRequiresSection4Compliance: {
+    agreementMakesSection4ComplianceMaterialCondition: {
       type: "boolean",
+    },
+    existingAgreementComplianceMandateIssued: {
+      type: ["boolean", "null"],
+    },
+    existingAgreementComplianceAction: {
+      enum: [
+        "modified",
+        "written-notice",
+        "pending",
+        "not-applicable",
+      ],
     },
     usesSubcontractors: {
       type: "boolean",
     },
-    subcontractorFlowdownImplemented: {
+    subcontractorFlowdownAllTiersImplemented: {
       type: ["boolean", "null"],
+    },
+    periodicComplianceEvaluationIncorporated: {
+      type: "boolean",
+    },
+    lastPeriodicEvaluationAt: {
+      type: ["string", "null"],
+      format: "date-time",
     },
     complianceAuditCurrent: {
       type: ["boolean", "null"],
@@ -212,15 +253,15 @@ export const coveredContractorSchema = schema(
 );
 
 export const externalServiceSchema = schema(
-  "urn:fdea:resource:external-service:v1",
+  "urn:fdea:resource:external-service:v2",
   "External Service",
   [
     "sponsoringAgencyExternalRef",
     "serviceKind",
     "handlesCoveredInformation",
+    "agreementKind",
     "section4ControlsImplemented",
     "agreementRequiresSection4Compliance",
-    "keysPreventUnauthorizedProviderAccess",
   ],
   {
     sponsoringAgencyExternalRef: {
@@ -236,6 +277,16 @@ export const externalServiceSchema = schema(
         "other",
       ],
     },
+    agreementKind: {
+      enum: [
+        "contract",
+        "memorandum-of-understanding",
+        "other-agreement",
+      ],
+    },
+    agreementReference: {
+      type: ["string", "null"],
+    },
     handlesCoveredInformation: {
       type: "boolean",
     },
@@ -245,8 +296,17 @@ export const externalServiceSchema = schema(
     agreementRequiresSection4Compliance: {
       type: "boolean",
     },
+    cloudDataEncrypted: {
+      type: ["boolean", "null"],
+    },
     keysPreventUnauthorizedProviderAccess: {
-      type: "boolean",
+      type: ["boolean", "null"],
+    },
+    providerAccessExplicitlyPermittedByAgency: {
+      type: ["boolean", "null"],
+    },
+    permittedProviderAccessScope: {
+      type: ["string", "null"],
     },
   },
 );
@@ -437,6 +497,7 @@ export const evidenceSchemas = {
         "observedAt",
         "agreementReference",
         "requiresSection4Compliance",
+        "materialCondition",
       ],
       {
         agreementReference: {
@@ -444,6 +505,17 @@ export const evidenceSchemas = {
         },
         requiresSection4Compliance: {
           type: "boolean",
+        },
+        materialCondition: {
+          type: "boolean",
+        },
+        arrangementType: {
+          enum: [
+            "contract",
+            "grant",
+            "cooperative-agreement",
+            "other-arrangement",
+          ],
         },
       },
     ),
@@ -454,9 +526,13 @@ export const evidenceSchemas = {
       [
         "observedAt",
         "flowdownImplemented",
+        "allTiersCovered",
       ],
       {
         flowdownImplemented: {
+          type: "boolean",
+        },
+        allTiersCovered: {
           type: "boolean",
         },
         agreementReferences: {
@@ -464,6 +540,76 @@ export const evidenceSchemas = {
           items: {
             type: "string",
           },
+        },
+      },
+    ),
+  "fdea.existing-agreement-compliance-action":
+    evidenceSchema(
+      "existing-agreement-compliance-action",
+      "Existing Agreement Compliance Action",
+      [
+        "observedAt",
+        "agreementReference",
+        "action",
+        "complianceMandateIssued",
+      ],
+      {
+        agreementReference: {
+          type: "string",
+        },
+        action: {
+          enum: [
+            "modified",
+            "written-notice",
+          ],
+        },
+        complianceMandateIssued: {
+          type: "boolean",
+        },
+        issuedAt: {
+          type: "string",
+          format: "date-time",
+        },
+      },
+    ),
+  "fdea.contractor-periodic-evaluation":
+    evidenceSchema(
+      "contractor-periodic-evaluation",
+      "Contractor Periodic Compliance Evaluation",
+      [
+        "observedAt",
+        "evaluatorRole",
+        "section4ControlsVerified",
+      ],
+      {
+        evaluatorRole: {
+          enum: [
+            "contracting-officer",
+            "contracting-officer-delegee",
+            "agency-security-official",
+            "authorized-third-party-assessor",
+          ],
+        },
+        section4ControlsVerified: {
+          type: "boolean",
+        },
+        significantFailureFound: {
+          type: "boolean",
+        },
+        materialBreachDetermination: {
+          type: ["boolean", "null"],
+        },
+        assessmentReference: {
+          type: ["string", "null"],
+        },
+        enforcementDisposition: {
+          enum: [
+            "none",
+            "remediation-required",
+            "termination-for-default",
+            "suspension-debarment-referral",
+            "other",
+          ],
         },
       },
     ),
@@ -482,6 +628,15 @@ export const evidenceSchemas = {
         serviceReference: {
           type: ["string", "null"],
         },
+        cloudDataEncrypted: {
+          type: ["boolean", "null"],
+        },
+        keysPreventUnauthorizedProviderAccess: {
+          type: ["boolean", "null"],
+        },
+        providerAccessExplicitlyPermittedByAgency: {
+          type: ["boolean", "null"],
+        },
       },
     ),
   "fdea.external-service-agreement":
@@ -491,11 +646,19 @@ export const evidenceSchemas = {
       [
         "observedAt",
         "agreementReference",
+        "agreementKind",
         "requiresSection4Compliance",
       ],
       {
         agreementReference: {
           type: "string",
+        },
+        agreementKind: {
+          enum: [
+            "contract",
+            "memorandum-of-understanding",
+            "other-agreement",
+          ],
         },
         requiresSection4Compliance: {
           type: "boolean",
