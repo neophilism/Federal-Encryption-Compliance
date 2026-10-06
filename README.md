@@ -102,3 +102,18 @@ npm run partners:fixture
 ~~~
 
 See docs/contractors-external-systems.md.
+
+
+## Waivers and emergency exceptions
+
+PR 5 adds the Section 7 workflow package at `packages/exceptions`.
+
+It keeps waivers distinct from emergency communications:
+
+- technical-impracticability waivers use the engine's exception/waiver lifecycle;
+- classified-system conflicts use a narrow, directive-referenced exception;
+- emergency communications use the engine's immediate emergency-authorization lifecycle with a mandatory review deadline.
+
+The downstream layer rejects blanket rule targets and blanket scopes, requires compensating controls for waiver/classified paths, caps each waiver/exception window at one year, and models renewal as a fresh request rather than silently extending an existing authorization.
+
+See `docs/waivers-emergency-exceptions.md`.
