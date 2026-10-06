@@ -55,3 +55,18 @@ npm run build
 If this first thin app exposes a capability that is genuinely reusable across policy domains, that capability should be implemented in the master engine and the submodule pin updated here. Bill-specific concepts must remain in this repository.
 
 See docs/architecture.md and docs/roadmap.md.
+
+
+## Policy bundle
+
+The Federal Data Encryption policy package lives at packages/policy and contains:
+
+- statutory authority/source references;
+- the versioned declarative ruleset;
+- policy-specific resource schemas;
+- evidence schemas;
+- a safe provisioning CLI.
+
+The source legislation is still treated as draft. Provisioning registers a draft ruleset by default and requires an explicit FDEA_EFFECTIVE_FROM value before activation.
+
+See docs/policy-bundle.md.
