@@ -71,7 +71,7 @@ test("fully compliant covered system passes every applicable system control", ()
   );
   assert.equal(
     result.counts.notApplicable,
-    6,
+    9,
   );
 });
 
@@ -91,7 +91,7 @@ test("failing covered system produces concrete failures rather than unknown resu
   );
   assert.equal(
     result.counts.notApplicable,
-    6,
+    9,
   );
 });
 
@@ -115,7 +115,7 @@ test("missing evidence produces unknown results even when attributes claim compl
   );
   assert.equal(
     result.counts.notApplicable,
-    6,
+    9,
   );
 });
 
@@ -131,7 +131,7 @@ test("non-covered information system has no applicable modeled controls", () => 
   );
   assert.equal(
     result.counts.notApplicable,
-    14,
+    17,
   );
 });
 
