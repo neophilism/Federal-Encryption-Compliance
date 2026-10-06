@@ -7,40 +7,26 @@ import {
   federalDataEncryptionRuleSet,
 } from "@federal-encryption/policy";
 import {
-  evaluationFixtures,
-  failingSystem,
-  fullyCompliantSystem,
-  incompleteEvidenceSystem,
-  nonCoveredSystem,
+  compliantCloudService,
+  compliantContractor,
+  compliantSharedService,
+  failingCloudService,
+  failingContractor,
+  partnerFixtures,
 } from "../src/index.js";
 
 for (
   const fixture of
-  evaluationFixtures
+  partnerFixtures
 ) {
   test(
-    "fixture " +
+    "partner fixture " +
       fixture.id +
       " matches expected upstream evaluation status",
     () => {
       const result =
-        evaluateRuleSet(
-          federalDataEncryptionRuleSet,
-          {
-            resource: {
-              resourceType:
-                fixture.resource
-                  .resourceType,
-              attributes:
-                fixture.resource
-                  .attributes,
-            },
-            evidenceTypes:
-              fixture.evidence.map(
-                (item) =>
-                  item.evidenceType,
-              ),
-          },
+        evaluateFixture(
+          fixture,
         );
 
       assert.equal(
@@ -51,15 +37,15 @@ for (
   );
 }
 
-test("fully compliant covered system passes every applicable system control", () => {
+test("compliant contractor passes five applicable Section 5 controls", () => {
   const result =
     evaluateFixture(
-      fullyCompliantSystem,
+      compliantContractor,
     );
 
   assert.equal(
     result.counts.pass,
-    8,
+    5,
   );
   assert.equal(
     result.counts.fail,
@@ -71,19 +57,19 @@ test("fully compliant covered system passes every applicable system control", ()
   );
   assert.equal(
     result.counts.notApplicable,
-    9,
+    12,
   );
 });
 
-test("failing covered system produces concrete failures rather than unknown results", () => {
+test("failing contractor fails five applicable controls with evidence present", () => {
   const result =
     evaluateFixture(
-      failingSystem,
+      failingContractor,
     );
 
   assert.equal(
     result.counts.fail,
-    8,
+    5,
   );
   assert.equal(
     result.counts.unknown,
@@ -91,19 +77,19 @@ test("failing covered system produces concrete failures rather than unknown resu
   );
   assert.equal(
     result.counts.notApplicable,
-    9,
+    12,
   );
 });
 
-test("missing evidence produces unknown results even when attributes claim compliance", () => {
+test("compliant cloud service passes four applicable external-system controls", () => {
   const result =
     evaluateFixture(
-      incompleteEvidenceSystem,
+      compliantCloudService,
     );
 
   assert.equal(
     result.counts.pass,
-    0,
+    4,
   );
   assert.equal(
     result.counts.fail,
@@ -111,33 +97,61 @@ test("missing evidence produces unknown results even when attributes claim compl
   );
   assert.equal(
     result.counts.unknown,
-    8,
+    0,
   );
   assert.equal(
     result.counts.notApplicable,
-    9,
+    13,
   );
 });
 
-test("non-covered information system has no applicable modeled controls", () => {
+test("failing cloud service fails four applicable controls with evidence present", () => {
   const result =
     evaluateFixture(
-      nonCoveredSystem,
+      failingCloudService,
     );
 
   assert.equal(
-    result.status,
-    "pass",
+    result.counts.fail,
+    4,
+  );
+  assert.equal(
+    result.counts.unknown,
+    0,
   );
   assert.equal(
     result.counts.notApplicable,
-    17,
+    13,
+  );
+});
+
+test("non-cloud shared service applies only the two general external-system controls", () => {
+  const result =
+    evaluateFixture(
+      compliantSharedService,
+    );
+
+  assert.equal(
+    result.counts.pass,
+    2,
+  );
+  assert.equal(
+    result.counts.fail,
+    0,
+  );
+  assert.equal(
+    result.counts.unknown,
+    0,
+  );
+  assert.equal(
+    result.counts.notApplicable,
+    15,
   );
 });
 
 function evaluateFixture(
   fixture:
-    typeof evaluationFixtures[number],
+    typeof partnerFixtures[number],
 ) {
   return evaluateRuleSet(
     federalDataEncryptionRuleSet,

@@ -28,7 +28,7 @@ test("policy bundle has unique rule ids and traceable authorities", () => {
   );
   assert.equal(
     ids.length,
-    14,
+    17,
   );
   assert.equal(
     federalDataEncryptionAuthorities.length,
@@ -124,7 +124,7 @@ test("registration body is draft legislation with section-level authority links"
   );
   assert.equal(
     body.ruleSet.version,
-    "2025-draft-1",
+    "2025-draft-2",
   );
   assert.equal(
     body.metadata.sourceStatus,

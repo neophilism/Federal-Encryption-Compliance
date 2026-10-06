@@ -74,7 +74,7 @@ export const federalDataEncryptionRuleSet:
   DeclarativeRuleSet = {
     schemaVersion: "1",
     id: "federal-data-encryption-act",
-    version: "2025-draft-1",
+    version: "2025-draft-2",
     title:
       "Federal Data Encryption Act Compliance",
     description:
@@ -85,6 +85,8 @@ export const federalDataEncryptionRuleSet:
         "federal-data-encryption-act",
       downstreamApp:
         "federal-encryption-compliance",
+      supersedesVersion:
+        "2025-draft-1",
     },
     rules: [
       {
@@ -330,12 +332,12 @@ export const federalDataEncryptionRuleSet:
         id:
           "fdea.s5.contract-compliance-clause",
         title:
-          "Covered-information agreement requires statutory encryption compliance",
+          "Covered-information agreement makes Section 4 compliance a material condition",
         severity: "high",
         appliesWhen: contractorScope,
         require: {
           field:
-            "resource.attributes.agreementRequiresSection4Compliance",
+            "resource.attributes.agreementMakesSection4ComplianceMaterialCondition",
           operator: "equals",
           value: true,
         },
@@ -368,7 +370,7 @@ export const federalDataEncryptionRuleSet:
         },
         require: {
           field:
-            "resource.attributes.subcontractorFlowdownImplemented",
+            "resource.attributes.subcontractorFlowdownAllTiersImplemented",
           operator: "equals",
           value: true,
         },
@@ -380,6 +382,64 @@ export const federalDataEncryptionRuleSet:
             "Federal Data Encryption Act of 2025 § 5(b)",
           authorityLocator:
             "Sec. 5(b)",
+        },
+      },
+      {
+        id:
+          "fdea.s5.existing-agreement-compliance-action",
+        title:
+          "Existing covered-information agreement is modified or receives written compliance notice",
+        severity: "high",
+        appliesWhen: {
+          all: [
+            ...contractorScopeExpressions,
+            {
+              field:
+                "resource.attributes.agreementLifecycle",
+              operator: "equals",
+              value:
+                "existing-at-enactment",
+            },
+          ],
+        },
+        require: {
+          field:
+            "resource.attributes.existingAgreementComplianceMandateIssued",
+          operator: "equals",
+          value: true,
+        },
+        requiredEvidenceTypes: [
+          "fdea.existing-agreement-compliance-action",
+        ],
+        metadata: {
+          authorityCitation:
+            "Federal Data Encryption Act of 2025 § 5(a)",
+          authorityLocator:
+            "Sec. 5(a)",
+        },
+      },
+      {
+        id:
+          "fdea.s5.contractor-periodic-evaluation",
+        title:
+          "Contractor encryption compliance is incorporated into periodic performance evaluation",
+        severity: "high",
+        appliesWhen:
+          contractorScope,
+        require: {
+          field:
+            "resource.attributes.periodicComplianceEvaluationIncorporated",
+          operator: "equals",
+          value: true,
+        },
+        requiredEvidenceTypes: [
+          "fdea.contractor-periodic-evaluation",
+        ],
+        metadata: {
+          authorityCitation:
+            "Federal Data Encryption Act of 2025 § 5(d)",
+          authorityLocator:
+            "Sec. 5(d)",
         },
       },
       {
@@ -432,12 +492,54 @@ export const federalDataEncryptionRuleSet:
       },
       {
         id:
-          "fdea.s5.external-service-key-isolation",
+          "fdea.s5.cloud-data-encrypted",
         title:
-          "External-service key management prevents unauthorized provider access",
+          "Covered Federal data stored in a cloud service is encrypted",
         severity: "critical",
-        appliesWhen:
-          externalServiceScope,
+        appliesWhen: {
+          all: [
+            ...externalServiceScopeExpressions,
+            {
+              field:
+                "resource.attributes.serviceKind",
+              operator: "equals",
+              value: "cloud",
+            },
+          ],
+        },
+        require: {
+          field:
+            "resource.attributes.cloudDataEncrypted",
+          operator: "equals",
+          value: true,
+        },
+        requiredEvidenceTypes: [
+          "fdea.external-service-assessment",
+        ],
+        metadata: {
+          authorityCitation:
+            "Federal Data Encryption Act of 2025 § 5(c)",
+          authorityLocator:
+            "Sec. 5(c)",
+        },
+      },
+      {
+        id:
+          "fdea.s5.cloud-key-isolation",
+        title:
+          "Cloud key management prevents unauthorized provider or third-party access",
+        severity: "critical",
+        appliesWhen: {
+          all: [
+            ...externalServiceScopeExpressions,
+            {
+              field:
+                "resource.attributes.serviceKind",
+              operator: "equals",
+              value: "cloud",
+            },
+          ],
+        },
         require: {
           field:
             "resource.attributes.keysPreventUnauthorizedProviderAccess",
