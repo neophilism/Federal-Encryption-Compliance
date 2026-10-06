@@ -1,5 +1,5 @@
 {
-  "name": "@federal-encryption/policy",
+  "name": "@federal-encryption/evaluation",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,12 +9,14 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "tsx --test test/*.test.ts",
-    "provision": "tsx src/cli.ts"
+    "fixture": "tsx src/cli.ts"
   },
   "dependencies": {
-    "@caiae/sdk": "*"
+    "@caiae/sdk": "*",
+    "@federal-encryption/policy": "*"
   },
   "devDependencies": {
+    "@caiae/rules": "*",
     "@types/node": "^24.10.4",
     "tsx": "^4.19.2",
     "typescript": "^7.0.2"
