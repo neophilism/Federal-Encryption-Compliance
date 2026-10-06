@@ -6,8 +6,10 @@ import type {
 const observedAt =
   "2026-10-06T16:00:00.000Z";
 
-const completeSystemEvidence:
-  FederalEvidenceFixture[] = [
+function systemEvidence(
+  compliant: boolean,
+): FederalEvidenceFixture[] {
+  return [
     {
       evidenceType:
         "fdea.transit-encryption-configuration",
@@ -15,13 +17,22 @@ const completeSystemEvidence:
         "Transit encryption configuration snapshot",
       attributes: {
         observedAt,
-        protocol: "TLS 1.3",
-        encrypted: true,
-        nistApproved: true,
-        certificateValidation: true,
-        downgradeProtection: true,
-        hsts: true,
-        emailTransportProtected: true,
+        protocol:
+          compliant
+            ? "TLS 1.3"
+            : "legacy-or-none",
+        encrypted:
+          compliant,
+        nistApproved:
+          compliant,
+        certificateValidation:
+          compliant,
+        downgradeProtection:
+          compliant,
+        hsts:
+          compliant,
+        emailTransportProtected:
+          compliant,
       },
     },
     {
@@ -32,13 +43,19 @@ const completeSystemEvidence:
       attributes: {
         observedAt,
         algorithm:
-          "NIST-approved algorithm",
-        encrypted: true,
-        nistApproved: true,
-        coversPrimaryStores: true,
+          compliant
+            ? "NIST-approved algorithm"
+            : "unapproved-or-none",
+        encrypted:
+          compliant,
+        nistApproved:
+          compliant,
+        coversPrimaryStores:
+          compliant,
         coversBackupsArchivesAndExtracts:
-          true,
-        coversPortableStorage: true,
+          compliant,
+        coversPortableStorage:
+          compliant,
       },
     },
     {
@@ -49,11 +66,15 @@ const completeSystemEvidence:
       attributes: {
         observedAt,
         cryptographicIntegrityEnabled:
-          true,
-        authenticatedEncryption: true,
-        digitalSignaturesOrMacs: true,
-        robustAccessControls: true,
-        mfaWherePracticable: true,
+          compliant,
+        authenticatedEncryption:
+          compliant,
+        digitalSignaturesOrMacs:
+          compliant,
+        robustAccessControls:
+          compliant,
+        mfaWherePracticable:
+          compliant,
       },
     },
     {
@@ -63,7 +84,8 @@ const completeSystemEvidence:
         "NIST cryptographic conformance assessment",
       attributes: {
         observedAt,
-        conformant: true,
+        conformant:
+          compliant,
         applicableStandards: [
           "Applicable NIST cryptographic standards",
         ],
@@ -78,11 +100,14 @@ const completeSystemEvidence:
         "Key management control assessment",
       attributes: {
         observedAt,
-        rotationManaged: true,
-        keysStoredSeparately: true,
+        rotationManaged:
+          compliant,
+        keysStoredSeparately:
+          compliant,
       },
     },
   ];
+}
 
 function systemAttributes(
   compliant: boolean,
@@ -154,7 +179,7 @@ export const fullyCompliantSystem:
         systemAttributes(true),
     },
     evidence:
-      completeSystemEvidence,
+      systemEvidence(true),
   };
 
 export const failingSystem:
@@ -174,7 +199,7 @@ export const failingSystem:
         systemAttributes(false),
     },
     evidence:
-      completeSystemEvidence,
+      systemEvidence(false),
   };
 
 export const incompleteEvidenceSystem:
