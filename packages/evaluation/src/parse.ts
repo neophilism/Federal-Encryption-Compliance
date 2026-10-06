@@ -1,4 +1,5 @@
 import type {
+  EvaluationRuleResult,
   ParsedEvaluation,
 } from "./types.js";
 
@@ -16,7 +17,7 @@ export function parseEvaluation(
     array(
       source.rules,
       "evaluation.rules",
-    ).map(
+    ).map<EvaluationRuleResult>(
       (item, index) => {
         const rule =
           object(
