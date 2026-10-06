@@ -117,3 +117,14 @@ It keeps waivers distinct from emergency communications:
 The downstream layer rejects blanket rule targets and blanket scopes, requires compensating controls for waiver/classified paths, caps each waiver/exception window at one year, and models renewal as a fresh request rather than silently extending an existing authorization.
 
 See `docs/waivers-emergency-exceptions.md`.
+
+
+## Statutory clocks and oversight
+
+PR 6 adds the Section 4/5/6/11 clock and oversight package at `packages/oversight`.
+
+Persisted deadlines require an explicit enactment timestamp and enactment authority/reference; the draft legislation never acquires a live effective date by default. The package tracks the 180-day NIST deadline, one-calendar-year agency implementation and existing-contract transition limits, the 18-calendar-month GAO evaluation, OMB-selected annual certification dates, three-calendar-month progress updates while an agency remains noncompliant, OMB corrective-action milestones, and explicitly scheduled IG/FISMA reviews.
+
+Calendar years, months, and quarters are calculated as calendar periods rather than fixed 365-day or 90-day shortcuts. The runtime remains on the typed `@caiae/sdk` boundary.
+
+See `docs/statutory-clocks-oversight.md`.
