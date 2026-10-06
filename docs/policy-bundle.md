@@ -60,9 +60,11 @@ Every evidence type required by the declarative ruleset has a corresponding sche
 
 ## Ruleset
 
-The initial ruleset contains 12 declarative controls covering:
+The initial ruleset contains 14 declarative controls covering:
 
 - covered-information encryption in transit;
+- HSTS for applicable public-facing web services;
+- downgrade/interception protection for applicable agency email systems;
 - encryption at rest;
 - portable storage encryption when applicable;
 - integrity/authenticity controls;
