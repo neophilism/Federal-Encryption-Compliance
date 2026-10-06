@@ -10,7 +10,8 @@ type ConfigEnvironment = {
 };
 
 export function buildThinAppConfig(
-  env: ConfigEnvironment = process.env,
+  env: ConfigEnvironment =
+    process.env as ConfigEnvironment,
 ): ThinAppConfig {
   const apiBaseUrl =
     env.CAIAE_API_BASE_URL?.trim() ||
