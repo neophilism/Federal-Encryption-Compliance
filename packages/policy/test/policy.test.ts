@@ -28,7 +28,7 @@ test("policy bundle has unique rule ids and traceable authorities", () => {
   );
   assert.equal(
     ids.length,
-    12,
+    14,
   );
   assert.equal(
     federalDataEncryptionAuthorities.length,
