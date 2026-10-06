@@ -87,3 +87,18 @@ npm run evaluation:fixture
 Registered/effective evaluation requires an explicitly activated registered ruleset ID.
 
 See docs/evaluation-workflow.md.
+
+
+## Contractors and external systems
+
+PR 4 adds the Section 5 partner workflow package at packages/partners.
+
+It models covered contractors, all-tier subcontractor flow-down, existing-agreement compliance actions, periodic contractor evaluation, and cloud/shared/external-system compliance while keeping persistence and audit upstream.
+
+Run the default partner fixture with:
+
+~~~
+npm run partners:fixture
+~~~
+
+See docs/contractors-external-systems.md.
