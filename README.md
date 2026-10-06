@@ -70,3 +70,20 @@ The Federal Data Encryption policy package lives at packages/policy and contains
 The source legislation is still treated as draft. Provisioning registers a draft ruleset by default and requires an explicit FDEA_EFFECTIVE_FROM value before activation.
 
 See docs/policy-bundle.md.
+
+
+## Evaluation workflow
+
+PR 3 adds an SDK-driven evaluation package at packages/evaluation.
+
+The default mode is a draft simulation. It creates a downstream resource and evidence records through the engine API, then asks the upstream engine to evaluate the PR 2 declarative ruleset.
+
+Run the default fixture with:
+
+~~~
+npm run evaluation:fixture
+~~~
+
+Registered/effective evaluation requires an explicitly activated registered ruleset ID.
+
+See docs/evaluation-workflow.md.
