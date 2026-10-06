@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1",
+  "appId": "federal-encryption-compliance",
+  "displayName": "Federal Encryption Compliance",
+  "description": "Thin compliance application for implementation and oversight of the Federal Data Encryption Act.",
+  "engine": {
+    "apiBaseUrl": "http://localhost:4000",
+    "requestTimeoutMs": 30000
+  },
+  "features": {
+    "rulesets": true,
+    "resources": true,
+    "checks": true,
+    "authorizations": true,
+    "exceptions": true,
+    "evidence": true,
+    "deadlines": true,
+    "findings": true,
+    "remediations": true,
+    "certifications": true,
+    "reporting": true,
+    "publication": true,
+    "integrations": true,
+    "security": true
+  },
+  "resourceTypes": {
+    "federal-agency": {
+      "label": "Federal Agency"
+    },
+    "information-system": {
+      "label": "Information System"
+    },
+    "covered-contractor": {
+      "label": "Covered Contractor"
+    },
+    "external-service": {
+      "label": "External Service"
+    }
+  },
+  "metadata": {
+    "policyFamily": "federal-data-encryption-act"
+  }
+}

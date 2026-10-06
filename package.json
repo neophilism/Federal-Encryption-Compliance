@@ -1,0 +1,19 @@
+{
+  "name": "federal-encryption-compliance",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "workspaces": [
+    "apps/*",
+    "vendor/caiae/packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run engine:build:sdk && npm run dev -w @federal-encryption/web",
+    "engine:build:sdk": "npm run build -w @caiae/core && npm run build -w @caiae/rules && npm run build -w @caiae/db && npm run build -w @caiae/authorization && npm run build -w @caiae/deadlines && npm run build -w @caiae/traceability && npm run build -w @caiae/evidence && npm run build -w @caiae/findings && npm run build -w @caiae/certifications && npm run build -w @caiae/evaluations && npm run build -w @caiae/reporting && npm run build -w @caiae/publication && npm run build -w @caiae/integrations && npm run build -w @caiae/sdk",
+    "typecheck": "npm run engine:build:sdk && npm run typecheck -w @federal-encryption/web",
+    "test": "npm run engine:build:sdk && npm test -w @federal-encryption/web",
+    "build": "npm run engine:build:sdk && npm run build -w @federal-encryption/web"
+  }
+}
