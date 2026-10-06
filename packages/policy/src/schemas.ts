@@ -304,6 +304,9 @@ export const evidenceSchemas = {
         hsts: {
           type: ["boolean", "null"],
         },
+        emailTransportProtected: {
+          type: ["boolean", "null"],
+        },
       },
     ),
   "fdea.at-rest-encryption-configuration":
