@@ -35,7 +35,7 @@ test("accountability runtime stays on SDK and downstream oversight boundaries", 
       );
 
     assert.equal(
-      /\\.request\\s*(?:<|\\()/.test(
+      /\.request\s*(?:<|\()/.test(
         source,
       ),
       false,

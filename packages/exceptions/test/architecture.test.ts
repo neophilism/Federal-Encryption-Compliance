@@ -33,7 +33,7 @@ test("Section 7 runtime stays on the SDK boundary", async () => {
       );
 
     assert.equal(
-      /\\.request\\s*(?:<|\\()/.test(
+      /\.request\s*(?:<|\()/.test(
         source,
       ),
       false,

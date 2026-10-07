@@ -63,7 +63,7 @@ test("web runtime remains on the SDK boundary and client components cannot acces
     }
 
     assert.equal(
-      /\\.request\\s*(?:<|\\()/.test(
+      /\.request\s*(?:<|\()/.test(
         source,
       ),
       false,
