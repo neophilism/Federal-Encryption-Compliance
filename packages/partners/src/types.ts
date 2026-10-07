@@ -1,4 +1,5 @@
 import type {
+  EvidenceView,
   JsonObject,
   Resource,
 } from "@caiae/sdk";
@@ -145,7 +146,7 @@ export type PartnerEvaluationOptions = {
 
 export type PartnerEvidenceResult = {
   resource: Resource;
-  evidence: Record<string, unknown>;
+  evidence: EvidenceView;
 };
 
 export type PartnerEvaluationResult = {
