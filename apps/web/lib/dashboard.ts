@@ -8,6 +8,12 @@ import {
   readOperatorReadiness,
   type OperatorEnvironment,
 } from "./operator";
+import {
+  buildFederalDemoDashboard,
+} from "./demo";
+import {
+  isFederalDemoMode,
+} from "./demo-mode";
 
 type JsonRecord =
   Record<string, unknown>;
@@ -152,6 +158,14 @@ export async function loadFederalDashboard(
 ): Promise<
   FederalDashboardState
 > {
+  if (isFederalDemoMode(env)) {
+    return {
+      state: "ready",
+      data: buildFederalDemoDashboard()!,
+      engineBaseUrl: "demo://self-contained",
+    };
+  }
+
   const readiness =
     readOperatorReadiness(env);
 
@@ -235,6 +249,28 @@ export async function loadFederalResourceDashboard(
       message:
         "resourceId is required",
     };
+  }
+
+  if (isFederalDemoMode(env)) {
+    const data =
+      buildFederalDemoDashboard(
+        normalized,
+      );
+
+    return data
+      ? {
+          state: "ready",
+          data,
+          engineBaseUrl:
+            "demo://self-contained",
+        }
+      : {
+          state: "error",
+          message:
+            "Fictional demo resource not found",
+          engineBaseUrl:
+            "demo://self-contained",
+        };
   }
 
   const readiness =
