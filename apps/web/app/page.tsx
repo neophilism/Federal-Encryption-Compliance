@@ -1,84 +1,146 @@
 import {
+  ComplianceDashboard,
+} from "../components/compliance-dashboard";
+import {
   EngineStatus,
 } from "../components/engine-status";
 import {
-  buildThinAppConfig,
-} from "../lib/config";
+  loadFederalDashboard,
+} from "../lib/dashboard";
+import {
+  readFederalLegalStatus,
+} from "../lib/legal-status";
+import {
+  readOperatorReadiness,
+} from "../lib/operator";
 
-export default function HomePage() {
-  const config =
-    buildThinAppConfig();
+export const dynamic =
+  "force-dynamic";
+
+export default async function HomePage() {
+  const [
+    dashboard,
+    legalStatus,
+  ] = await Promise.all([
+    loadFederalDashboard(),
+    Promise.resolve(
+      readFederalLegalStatus(),
+    ),
+  ]);
+  const readiness =
+    readOperatorReadiness();
 
   return (
     <main className="shell">
-      <header className="hero">
-        <p className="eyebrow">
-          Thin application · Compliance, Authorization &amp; Immutable Audit Engine
-        </p>
-        <h1>
-          Federal Encryption Compliance
-        </h1>
-        <p className="lede">
-          A policy-specific application for administering encryption obligations,
-          evidence, exceptions, findings, remediation, certification, and reporting
-          through the reusable upstream compliance engine.
-        </p>
+      <header className="masthead">
+        <div>
+          <span className="seal">
+            FEC
+          </span>
+          <div>
+            <strong>
+              Federal Encryption Compliance
+            </strong>
+            <span>
+              Compliance · Oversight · Audit
+            </span>
+          </div>
+        </div>
+        <EngineStatus />
       </header>
 
-      <EngineStatus />
-
-      <section
-        className="grid"
-        aria-label="Application architecture"
-      >
-        <article className="card">
-          <h2>
-            Downstream policy
-          </h2>
-          <p>
-            Federal Data Encryption Act schemas, rules, source citations, terminology,
-            and user experience live in this repository.
+      {dashboard.state ===
+      "ready" ? (
+        <ComplianceDashboard
+          data={
+            dashboard.data
+          }
+          legalStatus={
+            legalStatus
+          }
+        />
+      ) : (
+        <section className="setup-shell">
+          <p className="eyebrow">
+            Operator dashboard
           </p>
-        </article>
-
-        <article className="card">
-          <h2>
-            Upstream engine
-          </h2>
-          <p>
-            Rules, authorizations, evidence, deadlines, findings, certification,
-            publication, audit, security, and reporting remain reusable upstream.
+          <h1>
+            Federal Encryption Compliance
+          </h1>
+          <p className="lede">
+            The application shell is running, but the operator dashboard is not yet connected to a complete engine organization context.
           </p>
-        </article>
 
-        <article className="card">
-          <h2>
-            SDK boundary
-          </h2>
-          <p>
-            This app talks to the engine through <code>@caiae/sdk</code> and HTTP.
-            It has no direct PostgreSQL or engine-service dependency.
-          </p>
-        </article>
-      </section>
+          <article
+            className={
+              "setup-card " +
+              dashboard.state
+            }
+          >
+            <h2>
+              {dashboard.state ===
+              "unconfigured"
+                ? "Complete server-side configuration"
+                : "Dashboard data is unavailable"}
+            </h2>
+            {dashboard.state ===
+            "unconfigured" ? (
+              <>
+                <p>
+                  Configure the following server-side environment values. They are never returned through public configuration endpoints.
+                </p>
+                <ul>
+                  {dashboard.missing.map(
+                    (name) => (
+                      <li
+                        key={
+                          name
+                        }
+                      >
+                        <code>
+                          {name}
+                        </code>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </>
+            ) : (
+              <p>
+                {dashboard.message}
+              </p>
+            )}
+          </article>
 
-      <section className="details">
-        <div>
-          <span>App ID</span>
-          <strong>{config.appId}</strong>
-        </div>
-        <div>
-          <span>Engine endpoint</span>
-          <strong>{config.engine.apiBaseUrl}</strong>
-        </div>
-        <div>
-          <span>Organization</span>
-          <strong>
-            {config.engine.organizationId ??
-              "Not provisioned yet"}
-          </strong>
-        </div>
-      </section>
+          <section className="setup-details">
+            <div>
+              <span>
+                Engine endpoint
+              </span>
+              <strong>
+                {readiness.engineBaseUrl}
+              </strong>
+            </div>
+            <div>
+              <span>
+                Organization
+              </span>
+              <strong>
+                {readiness.organizationId ??
+                  "Not configured"}
+              </strong>
+            </div>
+            <div>
+              <span>
+                Legal mode
+              </span>
+              <strong>
+                {legalStatus.label}
+              </strong>
+            </div>
+          </section>
+        </section>
+      )}
     </main>
   );
 }
