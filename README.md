@@ -128,3 +128,16 @@ Persisted deadlines require an explicit enactment timestamp and enactment author
 Calendar years, months, and quarters are calculated as calendar periods rather than fixed 365-day or 90-day shortcuts. The runtime remains on the typed `@caiae/sdk` boundary.
 
 See `docs/statutory-clocks-oversight.md`.
+
+
+## Findings, remediation, and certification
+
+PR 7 adds the Section 6 accountability workflow at `packages/accountability`.
+
+Failed compliance checks can be synchronized into the reusable engine's finding lifecycle, assigned, disputed, remediated, independently verified, closed, and reopened through the typed `@caiae/sdk` boundary. OMB corrective-action milestones reuse the statutory oversight clocks created by PR 6 rather than creating duplicate deadline state.
+
+The package deliberately distinguishes the statute's annual agency filing from a positive engine certification. A Section 6 filing may truthfully report incomplete compliance and must then include an explanation and remediation plan; it is persisted as an auditable filing resource and triggers quarterly progress clocks until full compliance is reached. Positive `fdea.system-compliance` certificates are separate operational artifacts and can only be issued through the upstream certification lifecycle from a passed supporting check with no unresolved findings.
+
+Annual and quarterly filings use deterministic references and content hashes. An exact retry reuses the same filing, while a changed filing cannot silently overwrite the original and must be handled as an explicit amendment.
+
+See `docs/findings-remediation-certification.md`.
