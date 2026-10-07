@@ -18,6 +18,7 @@
     "build": "npm run engine:build:sdk && npm run build -w @federal-encryption/policy && npm run build -w @federal-encryption/evaluation && npm run build -w @federal-encryption/partners && npm run build -w @federal-encryption/exceptions && npm run build -w @federal-encryption/oversight && npm run build -w @federal-encryption/accountability && npm run build -w @federal-encryption/web",
     "policy:provision": "npm run engine:build:sdk && npm run build -w @federal-encryption/policy && npm run provision -w @federal-encryption/policy",
     "evaluation:fixture": "npm run engine:build:sdk && npm run build -w @federal-encryption/policy && npm run fixture -w @federal-encryption/evaluation",
-    "partners:fixture": "npm run engine:build:sdk && npm run build -w @federal-encryption/policy && npm run build -w @federal-encryption/evaluation && npm run fixture -w @federal-encryption/partners"
+    "partners:fixture": "npm run engine:build:sdk && npm run build -w @federal-encryption/policy && npm run build -w @federal-encryption/evaluation && npm run fixture -w @federal-encryption/partners",
+    "preview:smoke": "node scripts/preview-smoke.mjs"
   }
 }
