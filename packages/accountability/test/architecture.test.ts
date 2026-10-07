@@ -34,6 +34,15 @@ test("accountability runtime stays on SDK and downstream oversight boundaries", 
         "utf8",
       );
 
+    assert.equal(
+      /\\.request\\s*(?:<|\\()/.test(
+        source,
+      ),
+      false,
+      file +
+        " must use typed @caiae/sdk methods rather than raw engine request routes",
+    );
+
     for (
       const forbidden of [
         "@caiae/findings",

@@ -32,6 +32,15 @@ test("Section 7 runtime stays on the SDK boundary", async () => {
         "utf8",
       );
 
+    assert.equal(
+      /\\.request\\s*(?:<|\\()/.test(
+        source,
+      ),
+      false,
+      file +
+        " must use typed @caiae/sdk methods rather than raw engine request routes",
+    );
+
     for (
       const forbidden of [
         "@caiae/exceptions",
