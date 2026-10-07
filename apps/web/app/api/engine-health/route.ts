@@ -13,16 +13,11 @@ export async function GET() {
     createPublicEngineClient();
 
   try {
-    const response =
-      await client.request<{
-        status: string;
-        service: string;
-        release?: string | null;
-        timestamp: string;
-      }>("/health");
+    const engine =
+      await client.getHealth();
 
     return Response.json({
-      engine: response.data,
+      engine,
     });
   } catch (error) {
     const message =
