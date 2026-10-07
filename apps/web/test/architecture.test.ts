@@ -62,6 +62,15 @@ test("web runtime remains on the SDK boundary and client components cannot acces
       );
     }
 
+    assert.equal(
+      /\\.request\\s*(?:<|\\()/.test(
+        source,
+      ),
+      false,
+      file.pathname +
+        " must use typed @caiae/sdk methods rather than raw engine request routes",
+    );
+
     if (
       source.trimStart()
         .startsWith(

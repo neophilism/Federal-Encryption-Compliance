@@ -33,6 +33,14 @@ test("runtime evaluation source stays on the SDK boundary", async () => {
       );
 
     assert.equal(
+      /\\.request\\s*(?:<|\\()/.test(
+        source,
+      ),
+      false,
+      file +
+        " must use typed @caiae/sdk methods rather than raw engine request routes",
+    );
+    assert.equal(
       source.includes(
         '"@caiae/rules"',
       ),

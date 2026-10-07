@@ -216,9 +216,7 @@ export class FederalEncryptionEvaluator {
         fixture,
       );
     const resourceId =
-      requiredResourceId(
-        resource,
-      );
+      resource.id;
     const evidence =
       await this.submitFixtureEvidence(
         resourceId,
