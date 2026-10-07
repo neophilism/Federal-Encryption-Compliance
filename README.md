@@ -141,3 +141,27 @@ The package deliberately distinguishes the statute's annual agency filing from a
 Annual and quarterly filings use deterministic references and content hashes. An exact retry reuses the same filing, while a changed filing cannot silently overwrite the original and must be handled as an explicit amendment.
 
 See `docs/findings-remediation-certification.md`.
+
+
+## Federal Encryption UI and reporting
+
+PR 8 replaces the original connectivity shell with a server-rendered operator dashboard at `apps/web`.
+
+The dashboard reads the master engine's compliance report through `@caiae/sdk` and presents Federal-specific operations without recreating engine state machines. It includes:
+
+- agency-wide compliance metrics;
+- failed checks and unresolved findings;
+- active and overdue deadlines;
+- active remediation;
+- positive operational certifications;
+- active exceptions;
+- immutable audit-chain integrity;
+- per-resource drill-down reports;
+- Section 6 annual certification filings and quarterly progress updates;
+- downloadable JSON, CSV, and text compliance reports.
+
+The operator credential is server-side only. Client components cannot read or instantiate operator-authenticated engine clients.
+
+The legal-mode banner is fail-closed. The UI says **Draft / simulation** unless both `FDEA_EFFECTIVE_FROM` and `FDEA_ENACTMENT_REFERENCE` are configured with a valid timestamp/reference.
+
+See `docs/ui-reporting.md`.

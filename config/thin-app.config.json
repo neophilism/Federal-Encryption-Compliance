@@ -35,6 +35,12 @@
     },
     "external-service": {
       "label": "External Service"
+    },
+    "fdea-annual-certification-filing": {
+      "label": "Section 6 Annual Certification Filing"
+    },
+    "fdea-quarterly-progress-update": {
+      "label": "Section 6 Quarterly Progress Update"
     }
   },
   "metadata": {
