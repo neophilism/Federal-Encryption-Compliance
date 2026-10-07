@@ -6,6 +6,12 @@ import {
   complianceExportFilename,
   parseComplianceExportFormat,
 } from "../../../../lib/report-export";
+import {
+  renderFederalDemoReport,
+} from "../../../../lib/demo";
+import {
+  isFederalDemoMode,
+} from "../../../../lib/demo-mode";
 
 export const dynamic =
   "force-dynamic";
@@ -44,6 +50,63 @@ export async function GET(
     );
   }
 
+  const resourceId =
+    url.searchParams
+      .get("resourceId")
+      ?.trim() ||
+    null;
+  const asOf =
+    url.searchParams
+      .get("asOf")
+      ?.trim() ||
+    undefined;
+  const filename =
+    complianceExportFilename(
+      format,
+      resourceId,
+    );
+
+  if (isFederalDemoMode()) {
+    const rendered =
+      renderFederalDemoReport(
+        format,
+        resourceId ??
+          undefined,
+      );
+
+    if (!rendered) {
+      return Response.json(
+        {
+          error:
+            "not_found",
+          message:
+            "Fictional demo resource not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    return new Response(
+      rendered.body,
+      {
+        headers: {
+          "cache-control":
+            "no-store",
+          "content-type":
+            rendered.mediaType,
+          "content-disposition":
+            'attachment; filename="' +
+            filename +
+            '"',
+          "x-fdea-demo":
+            "fictional",
+        },
+      },
+    );
+  }
+
   const readiness =
     readOperatorReadiness();
 
@@ -64,25 +127,9 @@ export async function GET(
     );
   }
 
-  const resourceId =
-    url.searchParams
-      .get("resourceId")
-      ?.trim() ||
-    null;
-  const asOf =
-    url.searchParams
-      .get("asOf")
-      ?.trim() ||
-    undefined;
-
   try {
     const client =
       createOperatorEngineClient();
-    const filename =
-      complianceExportFilename(
-        format,
-        resourceId,
-      );
 
     if (
       format === "json"
