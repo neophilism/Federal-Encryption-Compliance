@@ -186,7 +186,7 @@ See `docs/abstraction-review.md`.
 
 The repository includes a Render Blueprint and smoke-test workflow for rapid visual inspection during development.
 
-The default preview uses fictional demo data and remains legally labeled **Draft / simulation**. No real agency data or operator credentials belong in the preview environment.
+The default preview uses a self-contained fictional demo mode and remains legally labeled **Draft / simulation**. It includes representative resources, failures, deadlines, remediation, certifications, Section 6 filings, audit integrity, report exports, and resource drill-downs without requiring real agency data, a database, or an operator credential.
 
 Run the post-deploy smoke check with:
 
