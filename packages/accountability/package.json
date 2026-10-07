@@ -6,8 +6,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prebuild": "npm run build -w @federal-encryption/oversight",
     "build": "tsc -p tsconfig.json",
+    "pretypecheck": "npm run build -w @federal-encryption/oversight",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "npm run build -w @federal-encryption/oversight",
     "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
