@@ -4,11 +4,27 @@ import {
 import {
   createPublicEngineClient,
 } from "../../../lib/engine";
+import {
+  isFederalDemoMode,
+} from "../../../lib/demo-mode";
 
 export const dynamic =
   "force-dynamic";
 
 export async function GET() {
+  if (isFederalDemoMode()) {
+    return Response.json({
+      engine: {
+        status: "ok",
+        release:
+          "federal-fictional-demo",
+        mode: "demo",
+      },
+      demo: true,
+      fictional: true,
+    });
+  }
+
   const client =
     createPublicEngineClient();
 
@@ -18,6 +34,7 @@ export async function GET() {
 
     return Response.json({
       engine,
+      demo: false,
     });
   } catch (error) {
     const message =

@@ -12,7 +12,7 @@ The default preview is intentionally configured for fictional demo data:
 FDEA_DEMO_MODE=true
 ```
 
-Demo mode remains legally fail-closed: it does not set `FDEA_EFFECTIVE_FROM` or `FDEA_ENACTMENT_REFERENCE`, so the interface continues to identify the Federal Data Encryption Act source as **Draft / simulation**.
+Demo mode is self-contained and supplies fictional agency, resource, finding, deadline, remediation, certification, filing, audit, drill-down, health, and export data without requiring a database or operator token. It remains legally fail-closed: it does not set `FDEA_EFFECTIVE_FROM` or `FDEA_ENACTMENT_REFERENCE`, so the interface continues to identify the Federal Data Encryption Act source as **Draft / simulation**.
 
 ## Render service
 
@@ -59,4 +59,4 @@ After a deploy:
 PREVIEW_BASE_URL=https://federal-encryption-preview.onrender.com npm run preview:smoke
 ```
 
-The smoke test verifies the public application shell and public configuration endpoint. The full demo-mode smoke gate is extended in PR 12 to cover dashboard, health, report export, and resource drill-down routes.
+The smoke test verifies the public application shell, public configuration, demo runtime health, dashboard API, JSON report export, and a fictional resource drill-down route.

@@ -3,11 +3,17 @@ import {
   ComplianceDashboard,
 } from "../../../components/compliance-dashboard";
 import {
+  DemoBanner,
+} from "../../../components/demo-banner";
+import {
   loadFederalResourceDashboard,
 } from "../../../lib/dashboard";
 import {
   readFederalLegalStatus,
 } from "../../../lib/legal-status";
+import {
+  isFederalDemoMode,
+} from "../../../lib/demo-mode";
 
 export const dynamic =
   "force-dynamic";
@@ -28,6 +34,8 @@ export default async function ResourcePage({
     );
   const legalStatus =
     readFederalLegalStatus();
+  const demoMode =
+    isFederalDemoMode();
 
   return (
     <main className="shell">
@@ -36,6 +44,8 @@ export default async function ResourcePage({
           ← Organization dashboard
         </Link>
       </nav>
+
+      {demoMode && <DemoBanner />}
 
       {dashboard.state ===
       "ready" ? (

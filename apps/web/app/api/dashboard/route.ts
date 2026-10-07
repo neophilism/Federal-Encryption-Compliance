@@ -4,6 +4,9 @@ import {
 import {
   readFederalLegalStatus,
 } from "../../../lib/legal-status";
+import {
+  isFederalDemoMode,
+} from "../../../lib/demo-mode";
 
 export const dynamic =
   "force-dynamic";
@@ -13,6 +16,8 @@ export async function GET() {
     await loadFederalDashboard();
   const legalStatus =
     readFederalLegalStatus();
+  const demo =
+    isFederalDemoMode();
 
   if (
     dashboard.state ===
@@ -55,6 +60,9 @@ export async function GET() {
       dashboard:
         dashboard.data,
       legalStatus,
+      demo,
+      fictional:
+        demo ? true : undefined,
     },
     {
       headers: {

@@ -5,6 +5,9 @@ import {
   EngineStatus,
 } from "../components/engine-status";
 import {
+  DemoBanner,
+} from "../components/demo-banner";
+import {
   loadFederalDashboard,
 } from "../lib/dashboard";
 import {
@@ -13,6 +16,9 @@ import {
 import {
   readOperatorReadiness,
 } from "../lib/operator";
+import {
+  isFederalDemoMode,
+} from "../lib/demo-mode";
 
 export const dynamic =
   "force-dynamic";
@@ -29,6 +35,8 @@ export default async function HomePage() {
   ]);
   const readiness =
     readOperatorReadiness();
+  const demoMode =
+    isFederalDemoMode();
 
   return (
     <main className="shell">
@@ -48,6 +56,8 @@ export default async function HomePage() {
         </div>
         <EngineStatus />
       </header>
+
+      {demoMode && <DemoBanner />}
 
       {dashboard.state ===
       "ready" ? (

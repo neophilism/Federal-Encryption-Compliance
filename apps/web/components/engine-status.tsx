@@ -12,6 +12,7 @@ type Status =
   | {
       state: "online";
       release: string | null;
+      demo: boolean;
     }
   | {
       state: "offline";
@@ -51,6 +52,8 @@ export function EngineStatus() {
             release:
               body.engine.release ??
               null,
+            demo:
+              body.demo === true,
           });
           return;
         }
@@ -83,11 +86,12 @@ export function EngineStatus() {
     "Checking the configured upstream engine…";
 
   if (status.state === "online") {
-    message =
-      "Connected" +
-      (status.release
-        ? " · " + status.release
-        : "");
+    message = status.demo
+      ? "Fictional demo runtime"
+      : "Connected" +
+        (status.release
+          ? " · " + status.release
+          : "");
   } else if (
     status.state === "offline"
   ) {
