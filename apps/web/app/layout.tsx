@@ -4,10 +4,14 @@ import type {
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title:
-    "Federal Encryption Compliance",
+  title: {
+    default:
+      "Federal Encryption Compliance",
+    template:
+      "%s · Federal Encryption Compliance",
+  },
   description:
-    "Federal Data Encryption Act compliance administration and oversight",
+    "Federal encryption compliance operations, statutory oversight, remediation, certification, and reporting.",
 };
 
 export default function RootLayout({
