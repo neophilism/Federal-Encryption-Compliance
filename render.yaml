@@ -1,0 +1,19 @@
+previews:
+  generation: automatic
+
+services:
+  - type: web
+    name: federal-encryption-preview
+    runtime: node
+    repo: https://github.com/neophilism/Federal-Encryption-Compliance
+    region: virginia
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start -w @federal-encryption/web -- --hostname 0.0.0.0 --port $PORT
+    autoDeployTrigger: checksPass
+    healthCheckPath: /api/config
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: FDEA_DEMO_MODE
+        value: "true"

@@ -181,3 +181,18 @@ interpretation, Section 5/6/7 workflows, filing validation, and UI presentation
 remain downstream.
 
 See `docs/abstraction-review.md`.
+
+## Rapid preview deployment
+
+The repository includes a Render Blueprint and smoke-test workflow for rapid visual inspection during development.
+
+The default preview uses fictional demo data and remains legally labeled **Draft / simulation**. No real agency data or operator credentials belong in the preview environment.
+
+Run the post-deploy smoke check with:
+
+~~~
+PREVIEW_BASE_URL=https://federal-encryption-preview.onrender.com npm run preview:smoke
+~~~
+
+See `docs/preview-deployment.md`.
+
