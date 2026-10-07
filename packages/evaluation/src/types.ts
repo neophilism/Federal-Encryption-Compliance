@@ -1,4 +1,5 @@
 import type {
+  Finding,
   JsonObject,
 } from "@caiae/sdk";
 import type {
@@ -94,8 +95,5 @@ export type FederalEvaluationResult = {
     string | null;
   evaluation:
     ParsedEvaluation;
-  findings:
-    Array<
-      Record<string, unknown>
-    >;
+  findings: Finding[];
 };

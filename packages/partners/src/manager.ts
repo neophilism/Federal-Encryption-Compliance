@@ -1,6 +1,7 @@
 import {
   createOperatorClient,
   type ComplianceEngineClient,
+  type EvidenceView,
   type JsonObject,
   type Resource,
 } from "@caiae/sdk";
@@ -580,9 +581,7 @@ export class PartnerComplianceManager {
     attributes: JsonObject,
     correlationId?:
       string | null,
-  ): Promise<
-    Record<string, unknown>
-  > {
+  ): Promise<EvidenceView> {
     const observedAt =
       typeof attributes
         .observedAt ===
@@ -590,44 +589,28 @@ export class PartnerComplianceManager {
         ? attributes.observedAt
         : null;
 
-    return (
-      await this.client
-        .request<
-          Record<
-            string,
-            unknown
-          >
-        >(
-          "/v1/evidence",
-          {
-            method: "POST",
-            body: {
-              organizationId:
-                this.options
-                  .organizationId,
-              resourceId,
-              evidenceType,
-              title,
-              source:
-                "federal-encryption-compliance",
-              capturedAt:
-                observedAt,
-              attributes,
-              metadata: {
-                federalEncryption: {
-                  policyFamily:
-                    "federal-data-encryption-act",
-                  partnerWorkflow:
-                    true,
-                },
-              },
-              correlationId:
-                correlationId ??
-                null,
-            },
+    return this.client
+      .createEvidence({
+        resourceId,
+        evidenceType,
+        title,
+        source:
+          "federal-encryption-compliance",
+        capturedAt:
+          observedAt,
+        attributes,
+        metadata: {
+          federalEncryption: {
+            policyFamily:
+              "federal-data-encryption-act",
+            partnerWorkflow:
+              true,
           },
-        )
-    ).data;
+        },
+        correlationId:
+          correlationId ??
+          null,
+      });
   }
 }
 

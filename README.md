@@ -165,3 +165,19 @@ The operator credential is server-side only. Client components cannot read or in
 The legal-mode banner is fail-closed. The UI says **Draft / simulation** unless both `FDEA_EFFECTIVE_FROM` and `FDEA_ENACTMENT_REFERENCE` are configured with a valid timestamp/reference.
 
 See `docs/ui-reporting.md`.
+
+
+## Final abstraction review
+
+PR 9 completes the first thin-app architecture review. Remaining generic
+transport gaps discovered while building Federal Encryption—evidence lifecycle,
+rendered compliance reports, and engine health—are exposed through the upstream
+typed SDK, and downstream runtime code no longer constructs raw engine request
+routes.
+
+Architecture tests enforce the boundary: Federal runtime code must use
+`@caiae/sdk`, while Federal policy semantics, statutory calendar
+interpretation, Section 5/6/7 workflows, filing validation, and UI presentation
+remain downstream.
+
+See `docs/abstraction-review.md`.

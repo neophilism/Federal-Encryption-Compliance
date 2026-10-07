@@ -26,28 +26,6 @@ export function parseComplianceExportFormat(
   );
 }
 
-export function complianceReportPath(
-  organizationId: string,
-  resourceId?: string | null,
-): string {
-  const organization =
-    encodeURIComponent(
-      organizationId,
-    );
-
-  return resourceId
-    ? "/v1/reports/organizations/" +
-        organization +
-        "/resources/" +
-        encodeURIComponent(
-          resourceId,
-        ) +
-        "/compliance"
-    : "/v1/reports/organizations/" +
-        organization +
-        "/compliance";
-}
-
 export function complianceExportFilename(
   format:
     ComplianceExportFormat,

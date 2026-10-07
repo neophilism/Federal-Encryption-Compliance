@@ -4,7 +4,6 @@ import {
 } from "../../../../lib/operator";
 import {
   complianceExportFilename,
-  complianceReportPath,
   parseComplianceExportFormat,
 } from "../../../../lib/report-export";
 
@@ -79,22 +78,6 @@ export async function GET(
   try {
     const client =
       createOperatorEngineClient();
-    const response =
-      await client.request<
-        unknown
-      >(
-        complianceReportPath(
-          readiness.organizationId,
-          resourceId,
-        ),
-        {
-          query: {
-            format,
-            asOf,
-          },
-        },
-      );
-
     const filename =
       complianceExportFilename(
         format,
@@ -104,8 +87,16 @@ export async function GET(
     if (
       format === "json"
     ) {
+      const report =
+        await client
+          .getComplianceReport(
+            resourceId ??
+              undefined,
+            asOf,
+          );
+
       return Response.json(
-        response.data,
+        report,
         {
           headers: {
             "cache-control":
@@ -119,22 +110,23 @@ export async function GET(
       );
     }
 
+    const rendered =
+      await client
+        .getRenderedComplianceReport(
+          format,
+          resourceId ??
+            undefined,
+          asOf,
+        );
+
     return new Response(
-      typeof response.data ===
-        "string"
-        ? response.data
-        : String(
-            response.data ??
-              "",
-          ),
+      rendered.body,
       {
         headers: {
           "cache-control":
             "no-store",
           "content-type":
-            format === "csv"
-              ? "text/csv; charset=utf-8"
-              : "text/plain; charset=utf-8",
+            rendered.mediaType,
           "content-disposition":
             'attachment; filename="' +
             filename +

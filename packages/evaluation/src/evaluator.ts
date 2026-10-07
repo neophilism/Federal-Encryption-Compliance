@@ -1,7 +1,9 @@
 import {
   createOperatorClient,
   type ComplianceEngineClient,
+  type EvidenceView,
   type JsonObject,
+  type Resource,
 } from "@caiae/sdk";
 import {
   federalDataEncryptionRuleSet,
@@ -77,55 +79,39 @@ export class FederalEncryptionEvaluator {
     resourceId: string,
     evidence:
       readonly FederalEvidenceFixture[],
-  ): Promise<
-    Array<
-      Record<string, unknown>
-    >
-  > {
+  ): Promise<EvidenceView[]> {
     const records:
-      Array<
-        Record<string, unknown>
-      > = [];
+      EvidenceView[] = [];
 
     for (
       const item of evidence
     ) {
-      const response =
-        await this.client.request<
-          Record<string, unknown>
-        >(
-          "/v1/evidence",
-          {
-            method: "POST",
-            body: {
-              organizationId:
-                this.options
-                  .organizationId,
-              resourceId,
-              evidenceType:
-                item.evidenceType,
-              title:
-                item.title,
-              source:
-                "federal-encryption-compliance-fixture",
-              capturedAt:
-                capturedAt(
-                  item.attributes,
-                ),
-              attributes:
+      const record =
+        await this.client
+          .createEvidence({
+            resourceId,
+            evidenceType:
+              item.evidenceType,
+            title:
+              item.title,
+            source:
+              "federal-encryption-compliance-fixture",
+            capturedAt:
+              capturedAt(
                 item.attributes,
-              metadata: {
-                federalEncryption: {
-                  policyFamily:
-                    "federal-data-encryption-act",
-                },
+              ),
+            attributes:
+              item.attributes,
+            metadata: {
+              federalEncryption: {
+                policyFamily:
+                  "federal-data-encryption-act",
               },
             },
-          },
-        );
+          });
 
       records.push(
-        response.data,
+        record,
       );
     }
 
@@ -183,10 +169,13 @@ export class FederalEncryptionEvaluator {
 
     const findings =
       input.syncFindings
-        ? await this.syncFindings(
-            result.check.id,
-            input.correlationId,
-          )
+        ? (
+            await this.client
+              .syncFailedCheckFindings(
+                result.check.id,
+                input.correlationId,
+              )
+          ).findings
         : [];
 
     return {
@@ -217,12 +206,8 @@ export class FederalEncryptionEvaluator {
       "resourceId"
     >,
   ): Promise<{
-    resource:
-      Record<string, unknown>;
-    evidence:
-      Array<
-        Record<string, unknown>
-      >;
+    resource: Resource;
+    evidence: EvidenceView[];
     result:
       FederalEvaluationResult;
   }> {
@@ -231,9 +216,7 @@ export class FederalEncryptionEvaluator {
         fixture,
       );
     const resourceId =
-      requiredResourceId(
-        resource,
-      );
+      resource.id;
     const evidence =
       await this.submitFixtureEvidence(
         resourceId,
@@ -246,50 +229,10 @@ export class FederalEncryptionEvaluator {
       });
 
     return {
-      resource:
-        resource as unknown as
-          Record<string, unknown>,
+      resource,
       evidence,
       result,
     };
-  }
-
-  private async syncFindings(
-    checkId: string,
-    correlationId?:
-      string | null,
-  ): Promise<
-    Array<
-      Record<string, unknown>
-    >
-  > {
-    const response =
-      await this.client.request<{
-        findings:
-          Array<
-            Record<
-              string,
-              unknown
-            >
-          >;
-      }>(
-        "/v1/checks/" +
-          encodeURIComponent(
-            checkId,
-          ) +
-          "/findings/sync",
-        {
-          method: "POST",
-          body: {
-            correlationId:
-              correlationId ??
-              null,
-          },
-        },
-      );
-
-    return response.data
-      .findings;
   }
 }
 
@@ -306,20 +249,3 @@ function capturedAt(
     : null;
 }
 
-function requiredResourceId(
-  resource: {
-    id?: unknown;
-  },
-): string {
-  if (
-    typeof resource.id !==
-      "string" ||
-    resource.id.trim() ===
-      ""
-  ) {
-    throw new Error(
-      "created resource is missing id",
-    );
-  }
-  return resource.id;
-}
