@@ -11,40 +11,56 @@ if (!rawBase) {
 
 const base = rawBase.replace(/\/$/, "");
 const checks = [
-  {
-    path: "/",
-    expect: 200,
-  },
-  {
-    path: "/api/config",
-    expect: 200,
-  },
+  "/",
+  "/api/config",
+  "/api/engine-health",
+  "/api/dashboard",
+  "/api/reports/compliance?format=json",
+  "/resources/demo-legacy-records",
 ];
 
 let failed = false;
 
-for (const check of checks) {
-  const response = await fetch(
-    base + check.path,
-    {
-      redirect: "follow",
-      signal: AbortSignal.timeout(20_000),
-    },
-  );
+for (const path of checks) {
+  try {
+    const response = await fetch(
+      base + path,
+      {
+        redirect: "follow",
+        signal:
+          AbortSignal.timeout(
+            20_000,
+          ),
+      },
+    );
 
-  const ok =
-    response.status === check.expect;
+    const ok =
+      response.status === 200;
 
-  console.log(
-    JSON.stringify({
-      path: check.path,
-      status: response.status,
-      expected: check.expect,
-      ok,
-    }),
-  );
+    console.log(
+      JSON.stringify({
+        path,
+        status:
+          response.status,
+        expected: 200,
+        ok,
+      }),
+    );
 
-  if (!ok) failed = true;
+    if (!ok) failed = true;
+  } catch (error) {
+    failed = true;
+    console.error(
+      JSON.stringify({
+        path,
+        ok: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : String(error),
+      }),
+    );
+  }
 }
 
 if (failed) {
