@@ -10,6 +10,7 @@ export type OperatorEnvironment = {
   CAIAE_API_BASE_URL?: string;
   CAIAE_ORGANIZATION_ID?: string;
   CAIAE_OPERATOR_TOKEN?: string;
+  FDEA_DEMO_MODE?: string;
 };
 
 export type OperatorReadiness = {
