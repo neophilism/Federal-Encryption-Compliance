@@ -1,5 +1,7 @@
 # Federal Encryption Compliance
 
+**Full development plan and handoff:** [docs/DEVELOPMENT_PLAN.md](docs/DEVELOPMENT_PLAN.md).
+
 Federal Encryption Compliance is the first thin downstream application built on the reusable Compliance, Authorization & Immutable Audit Engine:
 
 https://github.com/neophilism/Compliance-Authorization-Immutable-Audit-Engine
