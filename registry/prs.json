@@ -4,7 +4,7 @@
   "roadmapVersion": 1,
   "planVerified": true,
   "plannedPrCount": 9,
-  "observedAt": "2026-10-11T17:39:48.034Z",
+  "observedAt": "2026-10-13T06:52:00.000Z",
   "units": [
     {
       "id": "FE-01",
@@ -82,7 +82,10 @@
       "id": "FE-09",
       "title": "End-to-end abstraction test",
       "origin": "original",
-      "prs": []
+      "prs": [
+        9
+      ],
+      "mappingEvidence": "Verified merged GitHub PR #9; the abstraction review and typed SDK boundary directly satisfy named roadmap unit FE-09"
     }
   ],
   "pullRequests": [
