@@ -1,9 +1,13 @@
 {
-  "schemaVersion": 1,
   "repository": "neophilism/Federal-Encryption-Compliance",
-  "roadmapVersion": 1,
+  "title": "Federal-Encryption-Compliance",
   "planVerified": true,
   "plannedPrCount": 9,
+  "sourceFiles": [
+    "docs/DEVELOPMENT_PLAN.md"
+  ],
+  "schemaVersion": 1,
+  "roadmapVersion": 1,
   "observedAt": "2026-10-13T06:52:00.000Z",
   "units": [
     {
@@ -13,7 +17,10 @@
       "prs": [
         1
       ],
-      "mappingEvidence": "Verified merged GitHub PR #1; directly corresponds to named roadmap unit FE-01"
+      "mappingEvidence": "Verified merged GitHub PR #1; directly corresponds to named roadmap unit FE-01",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-02",
@@ -22,7 +29,10 @@
       "prs": [
         2
       ],
-      "mappingEvidence": "Verified merged GitHub PR #2; directly corresponds to named roadmap unit FE-02"
+      "mappingEvidence": "Verified merged GitHub PR #2; directly corresponds to named roadmap unit FE-02",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-03",
@@ -31,7 +41,10 @@
       "prs": [
         3
       ],
-      "mappingEvidence": "Verified merged GitHub PR #3; directly corresponds to named roadmap unit FE-03"
+      "mappingEvidence": "Verified merged GitHub PR #3; directly corresponds to named roadmap unit FE-03",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-04",
@@ -40,7 +53,10 @@
       "prs": [
         4
       ],
-      "mappingEvidence": "Verified merged GitHub PR #4; directly corresponds to named roadmap unit FE-04"
+      "mappingEvidence": "Verified merged GitHub PR #4; directly corresponds to named roadmap unit FE-04",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-05",
@@ -49,7 +65,10 @@
       "prs": [
         5
       ],
-      "mappingEvidence": "Verified merged GitHub PR #5; directly corresponds to named roadmap unit FE-05"
+      "mappingEvidence": "Verified merged GitHub PR #5; directly corresponds to named roadmap unit FE-05",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-06",
@@ -58,7 +77,10 @@
       "prs": [
         6
       ],
-      "mappingEvidence": "Verified merged GitHub PR #6; directly corresponds to named roadmap unit FE-06"
+      "mappingEvidence": "Verified merged GitHub PR #6; directly corresponds to named roadmap unit FE-06",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-07",
@@ -67,7 +89,10 @@
       "prs": [
         7
       ],
-      "mappingEvidence": "Verified merged GitHub PR #7; directly corresponds to named roadmap unit FE-07"
+      "mappingEvidence": "Verified merged GitHub PR #7; directly corresponds to named roadmap unit FE-07",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-08",
@@ -76,7 +101,10 @@
       "prs": [
         8
       ],
-      "mappingEvidence": "Verified merged GitHub PR #8; directly corresponds to named roadmap unit FE-08"
+      "mappingEvidence": "Verified merged GitHub PR #8; directly corresponds to named roadmap unit FE-08",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     },
     {
       "id": "FE-09",
@@ -85,7 +113,10 @@
       "prs": [
         9
       ],
-      "mappingEvidence": "Verified merged GitHub PR #9; the abstraction review and typed SDK boundary directly satisfy named roadmap unit FE-09"
+      "mappingEvidence": "Verified merged GitHub PR #9; the abstraction review and typed SDK boundary directly satisfy named roadmap unit FE-09",
+      "dependsOn": [],
+      "externalDependencies": [],
+      "externalPrerequisites": []
     }
   ],
   "pullRequests": [

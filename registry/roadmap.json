@@ -1,57 +1,6 @@
 {
   "repository": "neophilism/Federal-Encryption-Compliance",
-  "title": "Federal-Encryption-Compliance",
-  "version": 1,
-  "planVerified": true,
-  "plannedPrCount": 9,
-  "sourceFiles": [
-    "docs/DEVELOPMENT_PLAN.md"
-  ],
-  "milestones": [
-    {
-      "id": "FE-01",
-      "title": "Foundation and thin-app boundary",
-      "origin": "original"
-    },
-    {
-      "id": "FE-02",
-      "title": "Federal Data Encryption policy bundle",
-      "origin": "original"
-    },
-    {
-      "id": "FE-03",
-      "title": "Encryption compliance evaluation",
-      "origin": "original"
-    },
-    {
-      "id": "FE-04",
-      "title": "Contractor and external-system compliance",
-      "origin": "original"
-    },
-    {
-      "id": "FE-05",
-      "title": "Waivers and emergency exceptions",
-      "origin": "original"
-    },
-    {
-      "id": "FE-06",
-      "title": "Statutory clocks and oversight",
-      "origin": "original"
-    },
-    {
-      "id": "FE-07",
-      "title": "Findings, remediation and certification",
-      "origin": "original"
-    },
-    {
-      "id": "FE-08",
-      "title": "Operator UI and reporting",
-      "origin": "original"
-    },
-    {
-      "id": "FE-09",
-      "title": "End-to-end abstraction test",
-      "origin": "original"
-    }
-  ]
+  "deprecated": true,
+  "redirectTo": "registry/prs.json",
+  "instructions": "Retired duplicate; use registry/prs.json directly."
 }
